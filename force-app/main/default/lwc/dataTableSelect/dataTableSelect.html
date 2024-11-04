@@ -1,15 +1,19 @@
 <template>
     <div lwc:if={isValid} lwc:ref="tableHeight" style='height: 400px;' class="slds-m-vertical_x-large">
-        <p class="slds-text-heading_medium">{tableOneHeading}</p>
+        <p class="slds-text-heading_medium"><lightning-icon lwc:if={iconName} icon-name={iconName}
+                alternative-text="Couldn't load icon" size="small" title="large size"
+                variant="inverse"></lightning-icon>{tableOneHeading}</p>
         <lightning-datatable data={tableData} columns={tableColumns} key-field={keyField}
             enable-infinite-loading={enableInfiniteLoading} is-loading={isLoading} onloadmore={loadMoreData}
-            onrowselection={handleRowAction}>
+            onrowselection={handleRowAction} selected-rows={selectedRows}>
         </lightning-datatable>
     </div>
     <div lwc:if={selectedData} lwc:ref="tableTwoHeight" style='height: 400px;' class="slds-m-vertical_x-large">
-        <p class="slds-text-heading_medium">{tableTwoHeading}</p>
-        <lightning-datatable data={selectedData} columns={tableColumns} key-field={keyField}
-            hide-checkbox-column="true">
+        <p class="slds-text-heading_medium"><lightning-icon lwc:if={iconName} icon-name={iconName}
+                alternative-text="Couldn't load icon" size="small" title="large size"
+                variant="inverse"></lightning-icon>{tableTwoHeading}</p>
+        <lightning-datatable data={selectedData} columns={tableColumns1} key-field={keyField}
+            hide-checkbox-column="true" onrowaction={callRowAction}>
         </lightning-datatable>
     </div>
     <template lwc:if={attributeError}>

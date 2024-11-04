@@ -27,4 +27,8 @@ export default class DataSelectParent extends LightningElement {
     connectedCallback() {
         this.getAccounts(0, 5);
     }
+
+    handleRowSelection(event){
+        console.log(event.detail.selectedData);
+    }
 }

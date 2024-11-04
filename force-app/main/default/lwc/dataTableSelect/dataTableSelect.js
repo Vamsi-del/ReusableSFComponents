@@ -13,12 +13,73 @@ export default class DataTableSelect extends LightningElement {
         myPromise.then((isSuccess) => {
             if (isSuccess) {
                 this._colums = columns;
+                if ((typeof this.showButton === 'boolean' && this.showButton) || (typeof this.showButton === 'string' && this.showButton === 'true')) {
+                    columns = JSON.parse(JSON.stringify(columns));
+                    columns.push({
+                        type: "button", initialWidth: 100, typeAttributes: {
+                            label: this.tableButtonLabel,
+                            name: this.tableButtonLabel,
+                            title: this.tableButtonLabel,
+                            variant: "brand-outline"
+                        }
+                    });
+                }
+                this.tableColumns1 = [...columns];
             }
         });
     }
 
     get tableColumns() {
         return this._colums;
+    }
+
+    _buttonLabelChange = 'UnSelect';
+    @api
+    set tableButtonLabel(labelChange) {
+        this._buttonLabelChange = labelChange;
+    }
+
+    get tableButtonLabel() {
+        return this._buttonLabelChange;
+    }
+
+    callRowAction(event) {
+        const rowId = event.detail.row[this.keyField];
+        let index = 0;
+        for (const data of this.selectedData) {
+            if (rowId === data[this.keyField]) {
+                this.selectedData.splice(index, 1);
+                this.selectedData = [...this.selectedData];
+                this.selectedRows.splice(index, 1);
+                this.selectedRows = [...this.selectedRows];
+                break;
+            }
+            ++index;
+        }
+        if (this.selectedRows.length === 0) {
+            this.selectedData = undefined;
+        }
+        let customEvent = new CustomEvent('rowselection',{detail:{selectedData:this.selectedData}});
+        this.dispatchEvent(customEvent);
+    }
+
+    @track tableColumns1;
+
+    _showTableButton
+    @api
+    set showButton(showBut) {
+        if (typeof showBut === 'boolean' || (typeof showBut === 'string' && showBut.toLowerCase() === 'true' || showBut.toLowerCase() === 'false')) {
+            this._showTableButton = showBut;
+        } else {
+            this.attributeError = {
+                errorMessage: 'Expected values on showButton true/false',
+                original: 'But Found ' + showBut
+            }
+        }
+    }
+
+    get showButton() {
+        return this._showTableButton;
     }
 
     _keyField;
@@ -184,10 +245,19 @@ export default class DataTableSelect extends LightningElement {
 
     selectedData;
     handleRowAction(event) {
-        console.log(event.detail.selectedRows);
         this.selectedData = event.detail.selectedRows;
+        this.selectedRows = [];
+        for (const data of this.selectedData) {
+            this.selectedRows.push(data[this.keyField]);
+        }
+        let customEvent = new CustomEvent('rowselection',{detail:{selectedData:this.selectedData}});
+        this.dispatchEvent(customEvent);
     }
 
-    tableOneHeading = 'Select Accounts';
-    tableTwoHeading = 'Selected Accounts';
+    @track selectedRows = [];
+
+    @api tableOneHeading = 'Select Accounts';
+    @api tableTwoHeading = 'Selected Accounts';
+
+    @api iconName;
 }
