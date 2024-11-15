@@ -1,0 +1,30 @@
+.enabled {
+    cursor: pointer;
+    padding: 5px;
+    font-weight: 500;
+}
+
+.disabled{
+    cursor: pointer;
+    padding: 5px;
+    font-weight: 500;
+    color: grey;
+}
+
+.dropDown {
+    width: inherit;
+    min-height: auto;
+    max-height: 140px;
+    height: min-content;
+    z-index: 1;
+    position: absolute;
+    background-color: white;
+    overflow: auto;
+}
+
+.enabled:hover{
+    background-color:  rgba(113, 110, 110, 0.304);
+    cursor: pointer;
+    padding: 5px;
+    font-weight: 500;
+}

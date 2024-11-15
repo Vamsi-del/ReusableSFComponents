@@ -1,0 +1,26 @@
+<template>
+    <div class="firstDiv" style="width: 50%;">
+        <lightning-input label={primaryLabel} class="Primary" onchange={handleChange} lwc:ref="primarySearch"
+            onclick={handleDropDown}></lightning-input>
+        <div class="dropDown slds-hidden" onscroll={handleLoadMore}>
+            <template for:each={primaryData} for:item="primary" for:index="index">
+                <p key={primary.disabled} class="enabled primary" data-index={index} onclick={handleValueSelection}>
+                    {primary.name}</p>
+            </template>
+        </div>
+        <lightning-input label={secondaryLabel} class="Secondary" onchange={handleChange} lwc:ref="secondarySearch"
+            onclick={handleDropDown}></lightning-input>
+        <div class="dropDown slds-hidden" onscroll={handleLoadMore}>
+            <template for:each={secondaryData} for:item="secondary" for:index="index">
+                <template lwc:if={secondary.disabled}>
+                    <p key={secondary.disabled} class="disabled" data-index={index} lwc:if={secondary.disabled}
+                        onclick={handleValueSelection}>{secondary.name}</p>
+                </template>
+                <template lwc:else>
+                    <p key={secondary.disabled} class="enabled secondary" data-index={index}
+                        onclick={handleValueSelection}>{secondary.name}</p>
+                </template>
+            </template>
+        </div>
+    </div>
+</template>
