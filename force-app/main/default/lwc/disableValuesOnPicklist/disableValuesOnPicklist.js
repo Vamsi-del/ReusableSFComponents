@@ -10,10 +10,12 @@ export default class DisableValuesOnPicklist extends LightningElement {
     _data = [];
     @api
     set originalData(data) {
+        let index = this._data.length
         if (data && Array.isArray(data)) {
             for (let i = this._data.length; i < data.length; i++) {
                 const name = data[i];
-                this._data.push({ 'name': name, 'disabled': false });
+                this._data.push({ 'name': name, 'disabled': false, 'index':index });
+                ++index;
             }
             if (this.refs?.primarySearch?.value?.length >= 0 && !this.searchString) {
                 this.primaryData = [...this._data];
@@ -37,6 +39,7 @@ export default class DisableValuesOnPicklist extends LightningElement {
         for (const data of this.originalData) {
             if (data.name.includes(searchValue)) {
                 filteredData.push(data);
+                data.disabled = false;
             }
         }
         if (inputClassName.includes('Primary')) {
@@ -94,6 +97,7 @@ export default class DisableValuesOnPicklist extends LightningElement {
         }
         const index = parseInt(event.currentTarget.dataset.index);
         const className = event.currentTarget.className;
+        this.secondaryData = [...this._data];
         if (className.includes('primary')) {
             this.refs.primarySearch.value = event.currentTarget.textContent;
             if (event.currentTarget.textContent === this.refs.secondarySearch.value) {
