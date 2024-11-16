@@ -250,6 +250,9 @@ export default class DataTableSelect extends LightningElement {
         for (const data of this.selectedData) {
             this.selectedRows.push(data[this.keyField]);
         }
+        if (this.selectedRows.length === 0) {
+            this.selectedData = undefined;
+        }
         let customEvent = new CustomEvent('rowselection',{detail:{selectedData:this.selectedData}});
         this.dispatchEvent(customEvent);
     }
