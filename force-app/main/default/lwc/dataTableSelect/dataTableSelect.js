@@ -16,7 +16,7 @@ export default class DataTableSelect extends LightningElement {
                 if ((typeof this.showButton === 'boolean' && this.showButton) || (typeof this.showButton === 'string' && this.showButton === 'true')) {
                     columns = JSON.parse(JSON.stringify(columns));
                     columns.push({
-                        type: "button", initialWidth: 100, typeAttributes: {
+                        type: "button", initialWidth: 110, typeAttributes: {
                             label: this.tableButtonLabel,
                             name: this.tableButtonLabel,
                             title: this.tableButtonLabel,
