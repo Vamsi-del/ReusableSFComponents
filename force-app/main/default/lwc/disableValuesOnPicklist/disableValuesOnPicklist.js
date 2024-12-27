@@ -113,8 +113,8 @@ export default class DisableValuesOnPicklist extends LightningElement {
     scrollTopHeight;
     handleLoadMore(event) {
         const clientHeight = event.currentTarget.clientHeight;
-        const recentScrollTop = event.currentTarget.scrollTop + clientHeight;
-        const scrollHeight = event.currentTarget.scrollHeight;
+        const recentScrollTop = Math.ceil(event.currentTarget.scrollTop + clientHeight);
+        const scrollHeight = Math.ceil(event.currentTarget.scrollHeight);
         if ((recentScrollTop === scrollHeight || recentScrollTop + 1 === scrollHeight) && this.scrollTopHeight + 1 !== recentScrollTop && !this.searchString) {
             this.scrollTopHeight = recentScrollTop;
             const loadMore = new CustomEvent('loadmore');
